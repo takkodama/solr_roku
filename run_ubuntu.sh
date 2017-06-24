@@ -1,6 +1,8 @@
 #/bin/bash
 
 # initiate core (only needed to run first times)
+# sudo su - solr -c "$SOLR_HOME/bin/solr delete -c rokudb"
+# sudo su - solr -c "$SOLR_HOME/bin/solr restart"
 sudo su - solr -c "$SOLR_HOME/bin/solr create -c rokudb"
 
 # post datas to the core
