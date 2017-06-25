@@ -1,2 +1,3 @@
 #/bin/bash
-sudo easy_install simplejson
+sudo apt-get install python-setuptools
+sudo pip install simplejson
