@@ -16,6 +16,6 @@
 -->
 
 <fields>
-    <field name="id" type="int" indexed="true" stored="true" required="true"/>
     <field name="trigger"  type="text_ja" indexed="true" stored="true"/>
+    <field name="reply"  type="text_ja" indexed="true" stored="true"/>
 </fields>
