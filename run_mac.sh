@@ -1,16 +1,21 @@
 #/bin/bash
 
 # initiate core (only needed to run first times)
-# $SOLR_HOME/bin/solr delete -c rokureply
-# $SOLR_HOME/bin/solr restart
-# $SOLR_HOME/bin/solr create -c rokureply
+declare -a arr=("rokutrigger" "rokureply")
 
-# post datas to the core
-$SOLR_HOME/bin/post -c rokureply xml/reply.xml
-$SOLR_HOME/bin/post -c rokureply json/reply.json
+for i in "${arr[@]}"
+do
+   # delete core
+   $SOLR_HOME/bin/solr delete -c "$i"
+done
 
-# get with http request
-# curl "http://localhost:8983/solr/rokureply/select?indent=on&q=id:1&wt=json"
+$SOLR_HOME/bin/solr restart
 
-# delete columns
-# $SOLR_HOME/bin/post -c rokureply -d "<delete><id>*</id></delete>"
+for i in "${arr[@]}"
+do
+   # create core
+   $SOLR_HOME/bin/solr create -c "$i"
+   # post datas to the core
+   $SOLR_HOME/bin/post -c "$i" xml/"$i".xml
+   $SOLR_HOME/bin/post -c "$i" json/"$i".json
+done

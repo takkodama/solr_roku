@@ -1,16 +1,21 @@
 #/bin/bash
 
 # initiate core (only needed to run first times)
-# sudo su - solr -c "$SOLR_HOME/bin/solr delete -c rokureply"
-# sudo su - solr -c "$SOLR_HOME/bin/solr restart"
-# sudo su - solr -c "$SOLR_HOME/bin/solr create -c rokureply"
+declare -a arr=("rokutrigger" "rokureply")
 
-# post datas to the core
-sudo su - solr -c "$SOLR_HOME/bin/post -c rokureply /home/tk/solr_roku/xml/reply.xml"
-sudo su - solr -c "$SOLR_HOME/bin/post -c rokureply /home/tk/solr_roku/json/reply.json"
+for i in "${arr[@]}"
+do
+   # delete core
+   sudo su - solr -c "$SOLR_HOME/bin/solr delete -c $i"
+done
 
-# get with http request
-curl "http://localhost:8983/solr/rokureply/select?indent=on&q=id:1&wt=json"
+sudo su - solr -c "$SOLR_HOME/bin/solr restart"
 
-# delete columns
-# $SOLR_HOME/bin/post -c rokureply -d "<delete><id>*</id></delete>"
+for i in "${arr[@]}"
+do
+   # create core
+   sudo su - solr -c "$SOLR_HOME/bin/solr create -c $i"
+   # post datas to the core
+   sudo su - solr -c "$SOLR_HOME/bin/post -c $i /home/tk/solr_roku/json/$i.json"
+   sudo su - solr -c "$SOLR_HOME/bin/post -c $i /home/tk/solr_roku/xml/$i.xml"
+done
