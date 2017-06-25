@@ -1,10 +1,11 @@
-from urllib2 import *
+import urllib.request
 import simplejson
-connection = urlopen('http://localhost:8983/solr/collection_name/select?q=cheese&wt=json')
-response = simplejson.load(connection)
-print response['response']['numFound'], "documents found."
+
+f = urllib.request.urlopen("http://localhost:8983/solr/rokudb/select?indent=on&q=id:1&wt=json")
+response = simplejson.load(f)
+print(response['response']['numFound'], "documents found.")
 
 # Print the name of each document.
 
-for document in response['response']['docs']:
-  print "  Name =", document['name']
+for doc in response['response']['docs']:
+   print("  mention =", doc['mention'][1])
