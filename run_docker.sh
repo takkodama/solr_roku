@@ -17,6 +17,6 @@ do
    # create core
    solr create -c $i
    # post datas to the core
-   post -c $i /solr_roku/json/$i.json
-   post -c $i /solr_roku/xml/$i.xml
+   /opt/solr/bin/post -c $i /solr_roku/json/$i.json
+   /opt/solr/bin/post -c $i /solr_roku/xml/$i.xml
 done
