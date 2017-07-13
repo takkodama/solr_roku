@@ -1,7 +1,7 @@
 #/bin/bash
 
 # initiate core (only needed to run first times)
-declare -a arr=("rokutrigger" "rokureply" "rokuuser")
+declare -a arr=("rokutrigger" "rokureply")
 
 for i in "${arr[@]}"
 do
