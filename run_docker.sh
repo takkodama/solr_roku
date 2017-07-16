@@ -1,31 +1,26 @@
-#/bin/bash
+#!/bin/bash
+
+# build & run the docker container
+docker build -t solr:rokuchanbot .
+docker run -d -p 8983:8983 --name solr_roku solr:rokuchanbot
 
 # initiate core (only needed to run first times)
 declare -a arr=("rokutrigger" "rokureply")
 
-# for i in "${arr[@]}"
-# do
-#    # delete core
-#    solr delete -c $i
-# done
-
-# disable restart so that the app doesn't fail (because of port shutdown?)
-# su solr -c "/opt/solr/bin/solr restart"
-
 for i in "${arr[@]}"
 do
-   # create core
-   solr create -c $i
+   # delete core
+   docker exec -it --user=solr solr_roku bin/solr delete -c $i
 done
 
-# again
+# restart
+# docker exec -it --user=solr solr_roku bin/solr restart
 
 for i in "${arr[@]}"
 do
-   # create core
-   solr create -c $i
-
+   # create cores
+   docker exec -it --user=solr solr_roku bin/solr create -c $i
    # post datas to the core
-   post -c $i /solr_roku/json/$i.json
-   post -c $i /solr_roku/xml/$i.xml
+   docker exec -it --user=solr solr_roku bin/post -c "$i" /usr/solr/solr_roku/xml/"$i".xml
+   docker exec -it --user=solr solr_roku bin/post -c "$i" /usr/solr/solr_roku/json/"$i".json
 done
