@@ -1,0 +1,6 @@
+solr_roku:
+  image: takschatzl/solr_roku
+  ports:
+     - "8983:8983"
+  volumes:
+     - $PWD/coredata:/opt/solr/server/solr/mycores
