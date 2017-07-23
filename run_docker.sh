@@ -1,8 +1,8 @@
 #!/bash
 
 # build & run the docker container
-docker build -t solr:rokuchanbot .
-docker run -d -p 8983:8983 --name solr_roku solr:rokuchanbot
+docker build -t takschatzl/solr_roku:latest .
+docker run -d -p 8983:8983 --name solr_roku takschatzl/solr_roku:latest
 docker exec -it --user=solr solr_roku solr start
 
 # initiate core (only needed to run first times)
